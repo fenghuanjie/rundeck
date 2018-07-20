@@ -2,6 +2,12 @@ FROM rundeckapp/testdeck:base-latest
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends wget && \
+    rm -r /var/lib/apt/lists/* && \
+    # Install confd
+    wget https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 && \
+    mv confd* /usr/local/bin/confd && \
+    chmod ugo+x /usr/local/bin/confd && \
+    # Setup rundeck user
     adduser --shell /bin/bash --home /home/rundeck --gecos "" --disabled-password rundeck \
     && passwd -d rundeck \
     && addgroup rundeck sudo
@@ -13,11 +19,8 @@ WORKDIR /home/rundeck
 COPY --chown=rundeck:rundeck .build .
 COPY --chown=rundeck:rundeck confd /etc/confd
 
-RUN wget https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 && \
-    mv confd* confd && \
-    chmod u+x confd && \
-    java -jar rundeck.war --installonly
+RUN java -jar rundeck.war --installonly
 
 VOLUME ["/home/rundeck/server/data"]
 
-CMD ./confd -onetime -backend env && java -jar rundeck.war
+CMD confd -onetime -backend env && java -jar rundeck.war
