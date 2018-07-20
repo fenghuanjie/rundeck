@@ -1,5 +1,5 @@
 [template]
-src = "myconfig.conf.tmpl"
+src = "rundeck-config.properties.tmpl"
 dest = "/home/rundeck/server/config/rundeck-config.properties"
 keys = [
     "/rundeck/database/username",

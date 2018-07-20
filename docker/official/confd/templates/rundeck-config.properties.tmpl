@@ -4,12 +4,12 @@ rdeck.base=/home/rundeck
 
 #rss.enabled if set to true enables RSS feeds that are public (non-authenticated)
 rss.enabled=false
-server.address={{getv "/rundeck/server/address" "0.0.0.0"}}
-grails.serverURL={{getv "/rundeck/grails/url" "http://127.0.0.1:4440"}}
-dataSource.dbCreate = update
-dataSource.url = {{jdbc:h2:file:/home/rundeck/server/data/grailsdb;MVCC=true
-dataSource.username = {{getv "/rundeck/database/username"}}
-dataSource.password = {{getv "/rundeck/database/password"}}
+server.address={{getv "/rundeck/server/address"}}
+grails.serverURL={{getv "/rundeck/grails/url"}}
+dataSource.dbCreate = {{getv "/rundeck/database/create" "update"}}
+dataSource.url = {{getv "/rundeck/database/url" "jdbc:h2:file:/home/rundeck/server/data/grailsdb;MVCC=true"}}
+dataSource.username = {{getv "/rundeck/database/username" ""}}
+dataSource.password = {{getv "/rundeck/database/password" ""}}
 {{if exists "/rundeck/database/driver"}}
     dataSource.driver = {{getv "/rundeck/database/driver"}}
 {{end}}
