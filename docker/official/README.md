@@ -5,6 +5,12 @@ The simplest way to persist data between container starts/upgrades is to
 utilize named volumes:  
 `$ docker run --name some-rundeck -v data:/home/rundeck/server/data`
 
+## control JVM heap allocation
+
+`$ docker run -m 1024m`
+
+The JVM is configured to use cgroup information to set the max heap allocation size.
+The RAM ration is set to `1`, so the JVM will utilize up to about the container limit.
 
 ## Environment Variables
 
