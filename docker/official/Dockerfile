@@ -23,4 +23,7 @@ RUN java -jar rundeck.war --installonly
 
 VOLUME ["/home/rundeck/server/data"]
 
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+
 CMD confd -onetime -backend env && java -XX:+UnlockExperimentalVMOptions -XX:MaxRAMFraction=1 -XX:+UseCGroupMemoryLimitForHeap -jar rundeck.war
