@@ -1,8 +1,6 @@
-FROM rundeckapp/testdeck:base-latest
+FROM rundeck/ubuntu-base:latest
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget && \
-    rm -r /var/lib/apt/lists/* && \
+RUN true && \
     # Install confd
     wget https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 && \
     mv confd* /usr/local/bin/confd && \
@@ -22,8 +20,5 @@ COPY --chown=rundeck:rundeck confd /etc/confd
 RUN java -jar rundeck.war --installonly
 
 VOLUME ["/home/rundeck/server/data"]
-
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
 
 CMD confd -onetime -backend env && java -XX:+UnlockExperimentalVMOptions -XX:MaxRAMFraction=1 -XX:+UseCGroupMemoryLimitForHeap -jar rundeck.war
